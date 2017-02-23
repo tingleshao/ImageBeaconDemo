@@ -20,6 +20,8 @@ def main():
  # a new app instance
  app = QApplication(sys.argv)
  form = MainWindow()
+ form.horizontalSlider_3.setProperty("value", 0)
+
  form.show()
  # without this, the script exits immediately.
  sys.exit(app.exec_())
