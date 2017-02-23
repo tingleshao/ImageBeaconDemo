@@ -5,7 +5,7 @@ import sys
 import PyQt5
 from PyQt5.QtWidgets import *
 
-
+from image_segmenter import image_segmenter
 import argparse
 # This is our window from QtCreator
 import mainwindow_auto
@@ -29,6 +29,9 @@ def main():
     image = cv2.imread(args["image"])
     shifted = cv2.pyrMeanShiftFiltering(image, 21, 51)
     cv2.imshow("Input", image)
+
+    segmenter = image_segmenter()
+    segmenter.watershed(shifted)
     # a new app instance
     app = QApplication(sys.argv)
     form = MainWindow()
