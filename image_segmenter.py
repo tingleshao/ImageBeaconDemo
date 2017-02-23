@@ -1,6 +1,12 @@
 
 #TODO: implement watershed first.
 
+from skimage.feature import peak_local_max
+from skimage.morphology import watershed
+from scipy import ndimage
+import argparse
+import cv2
+
 
 class image_segmenter():
     def set_images(image1, image2):
