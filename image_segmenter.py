@@ -1,5 +1,6 @@
 
 #TODO: implement watershed first.
+
 class image_segmenter():
     def set_images(image1, image2):
         self.image1 = image1
