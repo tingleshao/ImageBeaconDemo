@@ -7,6 +7,7 @@ from scipy import ndimage
 import argparse
 import cv2
 
+from matplotlib import pyplot as plt
 
 class image_segmenter():
     def set_images(image1, image2):
@@ -63,7 +64,10 @@ class image_segmenter():
         cv2.imshow("Output", image)
         cv2.waitKey(0)
 
-        
+    def disparity(image1, image2):
+        stereo = cv2.createStereoBM(numDisparities=16, blockSize=15)
+        disparity = stereo.compute(image1, image2)
+        plt.imshow(disparity, 'gray')
+        plt.show()
 
-    def disparity():
-        return None
+    
