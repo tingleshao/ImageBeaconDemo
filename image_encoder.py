@@ -20,3 +20,9 @@ class image_encoder():
 
     def encode_image_with_segmentation(img, mask):
         return None
+
+    def encode_image_mesh(img, mask):
+        # we may find a better mesh method using this link:
+        # https://people.eecs.berkeley.edu/~jrs/?_ga=1.243688709.1020511277.1487973402
+        # there is another related repository on GitHub.
+        return None
