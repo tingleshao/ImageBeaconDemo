@@ -1,6 +1,11 @@
 # this class basically, transforms the image into 64 and 64 and with DCT and,
 # later add a segmentation map into consideration\
 
+
+# we may need to insrtall bluez prior to running the program.
+# instruction can be found at https://learn.adafruit.com/bluefruit-le-python-library/installation
+
+
 import cv2
 
 
