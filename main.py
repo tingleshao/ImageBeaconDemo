@@ -23,15 +23,15 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
 def main():
 
     # read input image path
-    ap.add_argument("-i", "--image", required=True, help="path to input image")
-    args = vars(apl.parse_args())
+#    ap.add_argument("-i", "--image", required=True, help="path to input image")
+#    args = vars(apl.parse_args())
 
-    image = cv2.imread(args["image"])
-    shifted = cv2.pyrMeanShiftFiltering(image, 21, 51)
-    cv2.imshow("Input", image)
+#    image = cv2.imread(args["image"])
+ #   shifted = cv2.pyrMeanShiftFiltering(image, 21, 51)
+ #   cv2.imshow("Input", image)
 
-    segmenter = image_segmenter()
-    segmenter.watershed(shifted)
+#    segmenter = image_segmenter()
+#    segmenter.watershed(shifted)
     # a new app instance
     app = QApplication(sys.argv)
     form = MainWindow()
