@@ -72,7 +72,8 @@ class image_encoder():
                     dst_new[i,j] = 0
                 else:
                     count = count+1
-        print(count)
+        print("dst new:")
+        print(dst_new)
         return dst_new
 
     def decode(self, dst):
