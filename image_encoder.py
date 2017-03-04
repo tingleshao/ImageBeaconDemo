@@ -17,11 +17,12 @@ class image_encoder():
         # downsample the image into 64x64
         img_small = cv2.resize(img, (64,64), interpolation=cv2.INTER_CUBIC)
         # dct the image
-        imf = np.float32(img_small)/255.0  # float conversion/scale
-    #    dst = cv2.dct(imf)           # the dct
+        img_small_grey = cv2.cvtColor(img_small, cv2.COLOR_BGR2GRAY)
+        imf = np.float32(img_small_grey)/255.0  # float conversion/scale
+        dst = cv2.dct(imf)           # the dct
         # TODO: add statistical compression on it.
     #    return dst
-        return None
+        return dst
     #    imgcv1 = np.uint8(dst)*255.0    # convert back
 
     def encode_image_with_segmentation(img, mask):
