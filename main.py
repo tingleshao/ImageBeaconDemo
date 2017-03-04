@@ -18,6 +18,12 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
     def __init__(self):
         super(self.__class__, self).__init__()
         self.setupUi(self) # gets defined in the UI file
+        self.pushButton.clicked.connect(self.buttonClicked)
+
+    def buttonClicked(self):
+        sender = self.sender()
+        self.statusBar().showMessage(sender.text() + ' was pressed')
+        print("button clicked!")
 
 # I feel better having one of these
 def main():
@@ -42,6 +48,7 @@ def main():
     # a new app instance
     app = QApplication(sys.argv)
     form = MainWindow()
+
     form.horizontalSlider_3.setProperty("value", 0)
 
     form.show()

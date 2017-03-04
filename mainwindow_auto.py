@@ -82,9 +82,9 @@ class Ui_MainWindow(object):
         self.mainToolBar = QtWidgets.QToolBar(MainWindow)
         self.mainToolBar.setObjectName("mainToolBar")
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.mainToolBar)
-        self.statusBar = QtWidgets.QStatusBar(MainWindow)
-        self.statusBar.setObjectName("statusBar")
-        MainWindow.setStatusBar(self.statusBar)
+    #    self.statusBar = QtWidgets.QStatusBar(MainWindow)
+    #    self.statusBar.setObjectName("statusBar")
+    #    MainWindow.setStatusBar(self.statusBar)
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -102,4 +102,3 @@ class Ui_MainWindow(object):
         self.label_7.setText(_translate("MainWindow", "1"))
         self.label_8.setText(_translate("MainWindow", "3"))
         self.label_9.setText(_translate("MainWindow", "number of beacons"))
-
