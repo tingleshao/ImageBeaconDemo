@@ -10,6 +10,8 @@ import argparse as ap
 # This is our window from QtCreator
 import mainwindow_auto
 from image_encoder import image_encoder
+from data_broadcaster import data_broadcaster
+import time, threading
 
 
 # create class for our Raspberry Pi GUI
@@ -19,11 +21,25 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         super(self.__class__, self).__init__()
         self.setupUi(self) # gets defined in the UI file
         self.pushButton.clicked.connect(self.buttonClicked)
+        self.broadcaster = data_broadcaster()
+        self.index = 0
+        self.packets = []
 
     def buttonClicked(self):
         sender = self.sender()
         self.statusBar().showMessage(sender.text() + ' was pressed')
+        self.broadcast_image()
+        packets = [[12, 13], [14, 15]]
+    #    packets = image_encoder.prepare(data)
+        self.broadcast_image()
         print("button clicked!")
+
+    def broadcast_image(self):
+        self.broadcaster.broadcast_data(self.packets[self.index])
+        self.index = index +1
+        if self.index >= self.packets.length:
+            self.index = 0
+        threading.Timer( 1, self.broadcast_image ).start()
 
 # I feel better having one of these
 def main():
