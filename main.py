@@ -30,11 +30,13 @@ def main():
 #    image = cv2.imread(args["image"])
     image = cv2.imread("Lenna.png")
  #   shifted = cv2.pyrMeanShiftFiltering(image, 21, 51)
-    cv2.imshow("Input", image)
+#    cv2.imshow("Input", image)
 
     encoder = image_encoder()
     encoded_img_data = encoder.encode(image)
-
+    cv2.imshow("output", encoder.decode(encoded_img_data))
+    print(encoded_img_data)
+#    print(len(encoded_img_data))
 #    segmenter = image_segmenter()
 #    segmenter.watershed(shifted)
     # a new app instance
