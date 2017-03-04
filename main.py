@@ -29,7 +29,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         sender = self.sender()
         self.statusBar().showMessage(sender.text() + ' was pressed')
         self.broadcast_image()
-        packets = [[12, 13], [14, 15]]
+        self.packets = [[12, 13], [14, 15]]
     #    packets = image_encoder.prepare(data)
         self.broadcast_image()
         print("button clicked!")
