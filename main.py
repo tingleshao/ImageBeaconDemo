@@ -35,9 +35,11 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         print("button clicked!")
 
     def broadcast_image(self):
+        print("packets"+ str(self.packets))
+        print("index"+str(self.index))
         self.broadcaster.broadcast_data(self.packets[self.index])
-        self.index = index +1
-        if self.index >= self.packets.length:
+        self.index = self.index +1
+        if self.index >= len(self.packets):
             self.index = 0
         threading.Timer( 1, self.broadcast_image ).start()
 
