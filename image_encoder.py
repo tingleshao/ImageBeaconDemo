@@ -12,6 +12,7 @@ import zlib
 
 import scipy.io as sio
 import gzip
+import math
 
 class image_encoder():
     def init():
@@ -78,10 +79,10 @@ class image_encoder():
         for elem in data:
             num_array.append(int(elem))
         result_array = []
-        for i in range(math.ceil(len(num_array) / 29):
+        for i in range(math.ceil(len(num_array) / 20)):
             curr_array = []
             curr_array.append(i+1)
-            curr_array = curr_array + num_array[i*29:((i+1)*29+1)]
+            curr_array = curr_array + num_array[i*20:((i+1)*20+1)]
             result_array.append(curr_array)
         return result_array
 
