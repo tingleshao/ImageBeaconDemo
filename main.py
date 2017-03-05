@@ -30,9 +30,12 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.statusBar().showMessage(sender.text() + ' was pressed')
         self.broadcast_image()
     #    self.packets = [[12, 13], [14, 15]]
-        self.packets = image_encoder.prepare(data)
+        self.packets = image_encoder.prepare(self.data)
         self.broadcast_image()
         print("button clicked!")
+
+    def set_data(self, data):
+        self.data = data
 
     def broadcast_image(self):
         print("packets"+ str(self.packets))
@@ -57,8 +60,8 @@ def main():
 #    cv2.imshow("Input", image)
 
     encoder = image_encoder()
-    encoded_img_data = encoder.encode(image)
-    cv2.imshow("output", encoder.decode(encoded_img_data))
+    img_data, encoded_img_data = encoder.encode(image)
+    cv2.imshow("output", encoder.decode(img_data))
     print(encoded_img_data)
 #    print(len(encoded_img_data))
 #    segmenter = image_segmenter()
@@ -66,7 +69,7 @@ def main():
     # a new app instance
     app = QApplication(sys.argv)
     form = MainWindow()
-
+    form.set_data(encoded_img_data)
     form.horizontalSlider_3.setProperty("value", 0)
 
     form.show()

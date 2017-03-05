@@ -24,12 +24,8 @@ class image_encoder():
         img_small_grey = cv2.cvtColor(img_small, cv2.COLOR_BGR2GRAY)
         imf = np.float32(img_small_grey)/255.0  # float conversion/scale
         dst = cv2.dct(imf)           # the dct
-        # TODO: add statistical compression on it.
-    #    return dst
         dst_compress = self.compress_img(np.int8(dst*10))
         dst_compress2 = zlib.compress(self.mat_to_byte_array(dst_compress))
-##
-
     #    dst_array = [elem.encode("hex") for elem in dst_compress2]
         num_array = ""
         for elem in dst_compress2:
@@ -43,7 +39,7 @@ class image_encoder():
     #    f_out = gzip.open("compress", 'wb')
     #    sio.savemat(f_out, do_compression = True)
 
-        return dst_compress
+        return dst_compress, dst_compress2
     #    imgcv1 = np.uint8(dst)*255.0    # convert back
 
     def mat_to_byte_array(self, mat):
@@ -78,7 +74,16 @@ class image_encoder():
 
     def prepare(self, data):
         # prepare the data to be broadcasted
-        
+        num_array = []
+        for elem in data:
+            num_array.append(int(elem))
+        result_array = []
+        for i in range(math.ceil(len(num_array) / 29):
+            curr_array = []
+            curr_array.append(i+1)
+            curr_array = curr_array + num_array[i*29:((i+1)*29+1)]
+            result_array.append(curr_array)
+        return result_array
 
     def decode(self, dst):
         img = cv2.idct(np.float32(dst)/10.0)
