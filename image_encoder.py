@@ -76,6 +76,10 @@ class image_encoder():
         print(dst_new)
         return dst_new
 
+    def prepare(self, data):
+        # prepare the data to be broadcasted
+        
+
     def decode(self, dst):
         img = cv2.idct(np.float32(dst)/10.0)
         return img
