@@ -4,7 +4,7 @@ import cv2
 # This gets the Qt stuff
 import PyQt5
 from PyQt5.QtWidgets import *
-
+from PyQt5 import QtCore, QtGui, QtWidgets
 from image_segmenter import image_segmenter
 import argparse as ap
 # This is our window from QtCreator
@@ -52,7 +52,8 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         image = cv2.imread("image.jpg")
         encoder = image_encoder()
         img_data, self.encoded_img_data = encoder.encode(image)
-        self.decoded_image = encoder.decode(img_data)
+        self.decoded_image = encoder.decode(img_data) * 255.0
+        print("decoded_image " + str(self.decoded_image))
     #    cv2.imshow("output", encoder.decode(img_data))
         cv2.imwrite("gray.jpg", self.decoded_image)
         self.label_10.setPixmap(QtGui.QPixmap("gray.jpg"))
