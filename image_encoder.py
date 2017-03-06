@@ -74,7 +74,7 @@ class image_encoder():
 
     def mat3_to_byte_array(self, mat0, mat1, mat2):
         mat3 = np.array([mat0, mat1, mat2])
-        arr = np.asarray(mat.reshape(1,4096*3))
+        arr = np.asarray(mat3.reshape(1,4096*3))
         return arr
 
     def quantize_dct(self, dst):

@@ -14,6 +14,7 @@ from data_broadcaster import data_broadcaster
 import time, threading
 import picamera
 
+import numpy as np
 
 # create class for our Raspberry Pi GUI
 class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
@@ -54,16 +55,26 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         img_data, self.encoded_img_data = encoder.encode(image)
         img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color(image)
         self.decoded_image = encoder.decode(img_data) * 255.0
+        self.decoded_image = self.decoded_image - np.amin(self.decoded_image)
         self.decoded_imager = encoder.decode(img_datar) * 255.0
         self.decoded_imageg = encoder.decode(img_datag) * 255.0
         self.decoded_imageb = encoder.decode(img_datab) * 255.0
-        self.decoded_image_color = np.array([self.decoded_imager, self.decoded_imageg, self.decoded_imageb])
+        self.decoded_imager = self.decoded_imager - np.amin(self.decoded_imager)
+        self.decoded_imageg = self.decoded_imageg - np.amin(self.decoded_imageg)
+        self.decoded_imageb = self.decoded_imageb - np.amin(self.decoded_imageb)
+        
+        self.decoded_image_color = np.zeros((64,64,3), np.uint8)
+        self.decoded_image_color[:,:,0] = self.decoded_imager
+        self.decoded_image_color[:,:,1] = self.decoded_imageg
+        self.decoded_image_color[:,:,2] =  self.decoded_imageb
+#        self.decoded_image_colo = self.decoded_imager - np.amin(self.decoded_image_color)
         print("decoded_image " + str(self.decoded_image))
+        print("decodecd_image_color" + str(self.decoded_image_color))
     #    cv2.imshow("output", encoder.decode(img_data))
         cv2.imwrite("gray.jpg", self.decoded_image)
         cv2.imwrite("color.jpg", self.decoded_image_color)
         self.label_10.setPixmap(QtGui.QPixmap("gray.jpg"))
-        self.label_10.setPixmap(QtGui.QPixmap("color.jpg"))
+        self.label_11.setPixmap(QtGui.QPixmap("color.jpg"))
 
     def set_data(self, data):
         self.data = data
