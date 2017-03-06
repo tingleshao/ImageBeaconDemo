@@ -12,6 +12,8 @@ import mainwindow_auto
 from image_encoder import image_encoder
 from data_broadcaster import data_broadcaster
 import time, threading
+import picamera
+
 
 
 # create class for our Raspberry Pi GUI
@@ -21,9 +23,12 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         super(self.__class__, self).__init__()
         self.setupUi(self) # gets defined in the UI file
         self.pushButton.clicked.connect(self.buttonClicked)
+        self.pushButton2.clicked.connect(self.button2Clicked)
         self.broadcaster = data_broadcaster()
         self.index = 0
         self.packets = []
+        self.camera = picamera.PiCamera()
+
 
     def buttonClicked(self):
         sender = self.sender()
@@ -33,9 +38,12 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         print("self data:" + str(self.data))
         encoder = image_encoder()
         self.packets = encoder.prepare(self.data)
- 
+
         self.broadcast_image()
         print("button clicked!")
+
+    def button2Clicked(self):
+        self.camera.start_preview()
 
     def set_data(self, data):
         self.data = data
@@ -51,12 +59,9 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
 
 # I feel better having one of these
 def main():
-
     # read input image path
-
 #    ap.add_argument("-i", "--image", required=True, help="path to input image")
 #    args = vars(apl.parse_args())
-
 #    image = cv2.imread(args["image"])
     image = cv2.imread("Lenna.png")
  #   shifted = cv2.pyrMeanShiftFiltering(image, 21, 51)
@@ -74,7 +79,6 @@ def main():
     form = MainWindow()
     form.set_data(encoded_img_data)
     form.horizontalSlider_3.setProperty("value", 0)
-
     form.show()
     # without this, the script exits immediately.
     sys.exit(app.exec_())

@@ -17,6 +17,9 @@ class Ui_MainWindow(object):
         self.pushButton = QtWidgets.QPushButton(self.centralWidget)
         self.pushButton.setGeometry(QtCore.QRect(260, 190, 113, 32))
         self.pushButton.setObjectName("pushButton")
+        self.pushButton2 = QtWidgets.QPushButton(self.centralWidget)
+        self.pushButton2.setGeometry(QtCore.QRect(260, 140, 113, 32))
+        self.pushButton.setObjectName("pushButton2")
         self.horizontalSlider = QtWidgets.QSlider(self.centralWidget)
         self.horizontalSlider.setGeometry(QtCore.QRect(20, 180, 160, 22))
         self.horizontalSlider.setProperty("value", 50)
@@ -93,6 +96,7 @@ class Ui_MainWindow(object):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "Write Image"))
+        self.pushButton2.setText(_translate("MainWindow", "Take Image"))
         self.label.setText(_translate("MainWindow", "Transmission Time (s)"))
         self.label_2.setText(_translate("MainWindow", "System Lifetime (month)"))
         self.label_3.setText(_translate("MainWindow", "1"))
