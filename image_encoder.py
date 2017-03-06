@@ -20,7 +20,7 @@ class image_encoder():
 
     def encode(self, img):
         # downsample the image into 64x64
-        img = img[:, 420:1499])
+        img = img[:, 420:1499]
         img_small = cv2.resize(img, (64,64), interpolation=cv2.INTER_CUBIC)
         # dct the image
         img_small_grey = cv2.cvtColor(img_small, cv2.COLOR_BGR2GRAY)
