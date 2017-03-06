@@ -31,13 +31,12 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
     def buttonClicked(self):
         sender = self.sender()
         self.statusBar().showMessage(sender.text() + ' was pressed')
-        image = cv2.imread("image.jpg")
-        encoder = image_encoder()
-        img_data, encoded_img_data = encoder.encode(image)
-        cv2.imshow("output", encoder.decode(img_data))
-        print(encoded_img_data)
-        self.set_data(encoded_img_data)
-
+    #    image = cv2.imread("image.jpg")
+    #    encoder = image_encoder()
+    #    img_data, encoded_img_data = encoder.encode(image)
+    #    cv2.imshow("output", encoder.decode(img_data))
+    #    print(encoded_img_data)
+        self.set_data(self.encoded_img_data)
         print("self data:" + str(self.data))
         encoder = image_encoder()
         self.packets = encoder.prepare(self.data)
@@ -50,6 +49,14 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         signal = input()
         self.camera.stop_preview()
         self.camera.capture("image.jpg")
+        image = cv2.imread("image.jpg")
+        encoder = image_encoder()
+        img_data, self.encoded_img_data = encoder.encode(image)
+        self.decoded_image = encoder.decode(img_data)
+    #    cv2.imshow("output", encoder.decode(img_data))
+        cv2.imwrite("gray.jpg", self.decoded_image)
+        self.label_10.setPixmap(QtGui.QPixmap("gray.jpg"))
+
 
     def set_data(self, data):
         self.data = data
