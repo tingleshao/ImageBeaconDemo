@@ -18,11 +18,13 @@ class image_encoder():
     def init():
         print("Image encoder initialized!")
 
-    def encode(self, img):
+    def encode(self, img, processed):
         # downsample the image into 64x64
-        img = img[:, 420:1499]
+        if not processed:
+            img = img[:, 324:2267]
         img_small = cv2.resize(img, (64,64), interpolation=cv2.INTER_CUBIC)
         # dct the image
+        img_small = np.uint8(img_small)
         img_small_grey = cv2.cvtColor(img_small, cv2.COLOR_BGR2GRAY)
         imf = np.float32(img_small_grey)/255.0  # float conversion/scale
         dst = cv2.dct(imf)           # the dct
@@ -42,9 +44,12 @@ class image_encoder():
     #    sio.savemat(f_out, do_compression = True)
         return dst_compress, dst_compress2
 
-    def encode_color(self, img):
-        img = img[:, 420:1499]
+    def encode_color(self, img, processed):
+        if not processed:
+            img = img[:, 324:2267]
+        
         img_small = cv2.resize(img, (64,64), interpolation=cv2.INTER_CUBIC)
+        img_small = np.uint8(img_small)
         # dct the image
         #img_small_grey = cv2.cvtColor(img_small, cv2.COLOR_BGR2GRAY)
         imfr = np.float32(img_small[:,:,0]) / 255.0

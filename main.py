@@ -15,6 +15,20 @@ import time, threading
 import picamera
 
 import numpy as np
+import RPi.GPIO as gp
+import os 
+
+
+#gp.setwarnings(False)
+#gp.setmode(gp.BOARD)
+#gp.setup(7, gp.OUT)
+#gp.setup(11, gp.OUT)
+#gp.setup(12, gp.OUT)
+
+#gp.output(11, True)
+#gp.output(12, True)
+
+
 
 # create class for our Raspberry Pi GUI
 class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
@@ -37,23 +51,68 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
     #    img_data, encoded_img_data = encoder.encode(image)
     #    cv2.imshow("output", encoder.decode(img_data))
     #    print(encoded_img_data)
-        self.set_data(self.encoded_img_data)
+        if self.radio_1.isChecked():
+            self.set_data(self.encoded_img_data)
+            print("broadcasting gray image")
+        else: 
+            self.set_data(self.encoded_img_data_color)
+            print("broadcasting color image") 
         print("self data:" + str(self.data))
         encoder = image_encoder()
         self.packets = encoder.prepare(self.data)
-
+        self.index = 0 
         self.broadcast_image()
         print("button clicked!")
 
     def button2Clicked(self):
+#        gp.output(7, False)
+#        gp.output(11, False)
+#        gp.output(12, True)
+
+
         self.camera.start_preview(fullscreen=False, window=(10,20,640,480))
         signal = input()
         self.camera.stop_preview()
-        self.camera.capture("image.jpg")
-        image = cv2.imread("image.jpg")
+        self.camera.close()
+      #  gp.setwarnings(False)
+      #  gp.setmode(gp.BOARD)
+
+      #  gp.setup(7, gp.OUT)
+      #  gp.setup(11, gp.OUT)
+      #  gp.setup(12, gp.OUT)
+
+     #   gp.output(11, True)
+     #   gp.output(12, True)
+       
+ #       gp.output(7, False)
+ #       gp.output(11, False)
+ #       gp.output(12, True)    #    self.camera.capture("image.jpg")
+ #       self.capture(1)
+        
+ #       gp.output(7, False)
+ #       gp.output(11, True)
+ #       gp.output(12, False)
+ #       self.capture(3)
+        self.capture()        
+   #     gp.output(7, False)
+   #     gp.output(11, False)
+   #     gp.output(12, True)
+
+        image = cv2.imread("capture_1.jpg")
+        image1 = cv2.imread("capture_1.jpg")
+        image2 = cv2.imread("capture_3.jpg")
+        image1 = image1[:,324:2267]
+        image2 = image2[:,324:2267]
+        image1 = cv2.resize(image1, (200,200), interpolation=cv2.INTER_CUBIC)
+        image2 = cv2.resize(image2, (200,200), interpolation=cv2.INTER_CUBIC)
+
+     #   image2 = cv2.imread("capture_3.jpg")
+        segmenter = image_segmenter()
+  #      image = segmenter.disparity(image1, image2)
+  #      segmenter.watershed(image1)        
         encoder = image_encoder()
-        img_data, self.encoded_img_data = encoder.encode(image)
-        img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color(image)
+        img_data, self.encoded_img_data = encoder.encode(image, True)
+        img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color(image, True)
         self.decoded_image = encoder.decode(img_data) * 255.0
         self.decoded_image = self.decoded_image - np.amin(self.decoded_image)
         self.decoded_imager = encoder.decode(img_datar) * 255.0
@@ -76,6 +135,11 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.label_10.setPixmap(QtGui.QPixmap("gray.jpg"))
         self.label_11.setPixmap(QtGui.QPixmap("color.jpg"))
 
+    def capture(self):
+        cmd = "python3 test_cam.py"
+        os.system(cmd)
+
+
     def set_data(self, data):
         self.data = data
 
@@ -86,7 +150,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.index = self.index +1
         if self.index >= len(self.packets):
             self.index = 0
-        threading.Timer( 1, self.broadcast_image ).start()
+        threading.Timer( 1.5, self.broadcast_image ).start()
 
 # I feel better having one of these
 def main():
