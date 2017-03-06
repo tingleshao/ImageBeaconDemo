@@ -40,13 +40,41 @@ class image_encoder():
         print(len(dst_compress2))
     #    f_out = gzip.open("compress", 'wb')
     #    sio.savemat(f_out, do_compression = True)
-
         return dst_compress, dst_compress2
-    #    imgcv1 = np.uint8(dst)*255.0    # convert back
 
+    def encode_color(self, img):
+        img = img[:, 420:1499]
+        img_small = cv2.resize(img, (64,64), interpolation=cv2.INTER_CUBIC)
+        # dct the image
+        #img_small_grey = cv2.cvtColor(img_small, cv2.COLOR_BGR2GRAY)
+        imfr = np.float32(img_small[:,:,0]) / 255.0
+        imfg = np.float32(img_small[:,:,1]) / 255.0
+        imfb = np.float32(img_small[:,:,2]) / 255.0
+    #    imf = np.float32(img_small_grey)/255.0  # float conversion/scale
+        dstr = cv2.dct(imfr)           # the dct
+        dstg = cv2.dct(imfg)           # the dct
+        dstb = cv2.dct(imfb)           # the dct
+
+        dst_compressr = self.compress_img(np.int8(dstr*10))
+        dst_compressg = self.compress_img(np.int8(dstg*10))
+        dst_compressb = self.compress_img(np.int8(dstb*10))
+        dst_compress2 = zlib.compress(self.mat3_to_byte_array(dst_compressr,dst_compressg, dst_compressb ))
+        num_array = ""
+        for elem in dst_compress2:
+            num_array+=(str(elem)+ " ")
+        print(num_array)
+        print(dst_compress2)
+        print(len(zlib.compress(dst_compress2)))
+        print(len(dst_compress2))
+        return dst_compressr, dst_compressg, dst_compressb, dst_compress2
 
     def mat_to_byte_array(self, mat):
         arr = np.asarray(mat.reshape(1,4096))
+        return arr
+
+    def mat3_to_byte_array(self, mat0, mat1, mat2):
+        mat3 = np.array([mat0, mat1, mat2])
+        arr = np.asarray(mat.reshape(1,4096*3))
         return arr
 
     def quantize_dct(self, dst):

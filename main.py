@@ -52,12 +52,18 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         image = cv2.imread("image.jpg")
         encoder = image_encoder()
         img_data, self.encoded_img_data = encoder.encode(image)
+        img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color(image)
         self.decoded_image = encoder.decode(img_data) * 255.0
+        self.decoded_imager = encoder.decode(img_datar) * 255.0
+        self.decoded_imageg = encoder.decode(img_datag) * 255.0
+        self.decoded_imageb = encoder.decode(img_datab) * 255.0
+        self.decoded_image_color = np.array([self.decoded_imager, self.decoded_imageg, self.decoded_imageb])
         print("decoded_image " + str(self.decoded_image))
     #    cv2.imshow("output", encoder.decode(img_data))
         cv2.imwrite("gray.jpg", self.decoded_image)
+        cv2.imwrite("color.jpg", self.decoded_image_color)
         self.label_10.setPixmap(QtGui.QPixmap("gray.jpg"))
-
+        self.label_10.setPixmap(QtGui.QPixmap("color.jpg"))
 
     def set_data(self, data):
         self.data = data
