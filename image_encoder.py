@@ -44,6 +44,7 @@ class image_encoder():
         return dst_compress, dst_compress2
     #    imgcv1 = np.uint8(dst)*255.0    # convert back
 
+
     def mat_to_byte_array(self, mat):
         arr = np.asarray(mat.reshape(1,4096))
         return arr
