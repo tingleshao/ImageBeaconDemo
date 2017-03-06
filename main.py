@@ -43,7 +43,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         print("button clicked!")
 
     def button2Clicked(self):
-        self.camera.start_preview()
+        self.camera.start_preview(fullscreen=False, window=(10,20,640,480))
         signal = input()
         self.camera.stop_preview()
         self.camera.capture("image.jpg")
