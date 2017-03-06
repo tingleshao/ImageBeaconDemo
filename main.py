@@ -44,6 +44,8 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
 
     def button2Clicked(self):
         self.camera.start_preview()
+        signal = raw_input()
+        self.camera.capture("image.jpg")
 
     def set_data(self, data):
         self.data = data
