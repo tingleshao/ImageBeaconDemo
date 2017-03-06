@@ -15,7 +15,6 @@ import time, threading
 import picamera
 
 
-
 # create class for our Raspberry Pi GUI
 class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
     # access variables inside of the UI's file
@@ -28,7 +27,6 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.index = 0
         self.packets = []
         self.camera = picamera.PiCamera()
-
 
     def buttonClicked(self):
         sender = self.sender()
@@ -68,24 +66,12 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
 # I feel better having one of these
 def main():
     # read input image path
-#    ap.add_argument("-i", "--image", required=True, help="path to input image")
-#    args = vars(apl.parse_args())
-#    image = cv2.imread(args["image"])
-#    image = cv2.imread("Lenna.png")
- #   shifted = cv2.pyrMeanShiftFiltering(image, 21, 51)
-#    cv2.imshow("Input", image)
-
-#    encoder = image_encoder()
-#    img_data, encoded_img_data = encoder.encode(image)
-#    cv2.imshow("output", encoder.decode(img_data))
-#    print(encoded_img_data)
-#    print(len(encoded_img_data))
+ #   shifted = cv2.pyrMeanShiftFiltering(image, 21, 51
 #    segmenter = image_segmenter()
 #    segmenter.watershed(shifted)
     # a new app instance
     app = QApplication(sys.argv)
     form = MainWindow()
-#    form.set_data(encoded_img_data)
     form.horizontalSlider_3.setProperty("value", 0)
     form.show()
     # without this, the script exits immediately.
