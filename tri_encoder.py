@@ -26,6 +26,9 @@ class tri_encoder():
         dt.drawImageColoredTriangles(triangles, "delaunay_" + filename, color_im, multiplier)
         dt.drawImageColoredTriangles(polygons, "voronoi_" + filename, color_im, multiplier)
 
-        # TODO: is this a postprocessing stage? shall I add it into the client? 
+        # TODO: is this a postprocessing stage? shall I add it into the client?
         dt.autocontrastImage("voronoi_" + filename)
         dt.autocontrastImage("delaunay_" + filename)
+
+        b = cv2.imread("delaunay_" + filename)
+        return b

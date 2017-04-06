@@ -109,6 +109,9 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
   #      image = segmenter.disparity(image1, image2)
   #      segmenter.watershed(image1)
         encoder = image_encoder()
+        t_encoder = tri_encoder()
+
+        # DCT encode image
         img_data, self.encoded_img_data = encoder.encode(image, True)
         img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color(image, True)
         self.decoded_image = encoder.decode(img_data) * 255.0
@@ -132,6 +135,11 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         cv2.imwrite("color.jpg", self.decoded_image_color)
         self.label_10.setPixmap(QtGui.QPixmap("gray.jpg"))
         self.label_11.setPixmap(QtGui.QPixmap("color.jpg"))
+
+        # triangle encode image
+        tri_filename = "capture_1.jpg"
+        t_encoder.encode(image1, True, tri_filename)
+        self.label_12.setPixmap(QtGui.QPixmap("delaunay_" + tri_filename))
 
     def capture(self):
         cmd = "python3 test_cam.py"
