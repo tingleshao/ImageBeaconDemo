@@ -1,4 +1,4 @@
-# this class basically, transforms the image into 64 and 64 and with DCT and,
+# this class transforms the image into 64 and 64 and with DCT and,
 # later add a segmentation map into consideration\
 
 
@@ -47,7 +47,7 @@ class image_encoder():
     def encode_color(self, img, processed):
         if not processed:
             img = img[:, 324:2267]
-        
+
         img_small = cv2.resize(img, (64,64), interpolation=cv2.INTER_CUBIC)
         img_small = np.uint8(img_small)
         # dct the image
