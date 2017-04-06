@@ -3,6 +3,7 @@
 import cv2
 import numpy as np
 
+# 
 class tri_encoder():
     def init():
         print("Triangle encoer initialized!")
