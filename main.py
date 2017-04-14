@@ -142,11 +142,11 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         cv2.imwrite("color.jpg", self.decoded_image_color)
         self.label_10.setPixmap(QtGui.QPixmap("gray.jpg"))
         self.label_11.setPixmap(QtGui.QPixmap("color.jpg"))
-
         # triangle encode image
         tri_filename = "capture_1.jpg"
         t_encoder.encode(image1, True, tri_filename)
         self.label_12.setPixmap(QtGui.QPixmap("delaunay_" + tri_filename))
+        
 
     def capture(self):
         cmd = "python3 test_cam.py"
