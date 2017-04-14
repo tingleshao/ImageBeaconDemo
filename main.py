@@ -12,10 +12,16 @@ import mainwindow_auto
 from image_encoder import image_encoder
 from data_broadcaster import data_broadcaster
 import time, threading
-import picamera
+
+testmode = False
+if len(sys.argv) > 1:
+    testmode = True
+
+if not testmode:
+    import picamera
+    import RPi.GPIO as gp
 
 import numpy as np
-import RPi.GPIO as gp
 import os
 
 
@@ -40,7 +46,8 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.broadcaster = data_broadcaster()
         self.index = 0
         self.packets = []
-        self.camera = picamera.PiCamera()
+        if not testmode:
+            self.camera = picamera.PiCamera()
 
     def buttonClicked(self):
         sender = self.sender()
