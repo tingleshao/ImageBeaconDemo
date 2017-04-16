@@ -123,7 +123,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         img_data, self.encoded_img_data = encoder.encode(image, True)
         img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color(image, True)
         # TODO: here switch to using constraint
-        #grey_constraint_index, color_constraint_index, tri_constraint_index = self.find_index()
+        grey_constraint_index, color_constraint_index, tri_constraint_index = self.find_index()
         #img_data, self.encoded_img_data = encoder.encode_with_constraint(image, constraint_index)
         #img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color_with_constraint(image, constraint_index)
 
@@ -151,7 +151,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
 
         # triangle encode image
         tri_filename = "capture_1x.png"
-        t_encoder.encode(image, True, tri_filename)
+        t_encoder.encode(image, True, tri_filename, 1.8)
         print("delaunay_" + tri_filename)
         image = QtGui.QImage("delaunay_" + tri_filename)
         a = cv2.imread("autocontrasted_delaunay_" + "capture_1x.jpg")
@@ -178,7 +178,11 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         threading.Timer( 1.5, self.broadcast_image ).start()
 
     def find_index(self):
-        
+        # for threshold 30, the time is gray: 10s, color: 40s
+        delay = self.horizontalSlider_2.value()
+        lifetime = self.horizontalSlider.value()
+        print("life time / delay: " + str(lifetime) + " " + str(delay))
+        return 1,2,3
 
 
 def main():

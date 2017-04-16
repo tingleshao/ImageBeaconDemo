@@ -164,8 +164,8 @@ def generateTriangles(points):
 # 1.5 ~ 500  Punkte
 # 2.0 ~ 3000 Punkte
 # 2.2 ~ 9500 Punkte
-def findPointsFromImage(im):
-    start = time.clock()
+def findPointsFromImage(im, th):
+#    start = time.clock()
     pix = np.array(im)
     points = []
 
@@ -173,12 +173,13 @@ def findPointsFromImage(im):
         for col in range(len(pix[row])):
 
             v =  pix[row][col]
-            v = v**2.1 / float(2**18)
+    #        v = v**2.1 / float(2**18)
+            v = v**th / float(2**18)
             if np.random.random() < v:
                 points.append((col, row))
 
-    print("Anzahl erzeugter Punkte:", len(points))
-    print("Punkte extrahieren: %.2fs" % (time.clock()-start))
+#    print("Anzahl erzeugter Punkte:", len(points))
+#    print("Punkte extrahieren: %.2fs" % (time.clock()-start))
     return points
 
 def loadAndFilterImage(name):
@@ -256,9 +257,9 @@ def resizeImage(filename, longestSide):
 
 # Wrapper.
 def delaunayFromPoints(points):
-    start = time.clock()
+#    start = time.clock()
     triangles = delaunay(points)
-    print("Delaunay-Triangulierung: %.2fs" % (time.clock()-start))
+#    print("Delaunay-Triangulierung: %.2fs" % (time.clock()-start))
     return triangles
 
 # Wrapper.

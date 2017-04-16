@@ -9,7 +9,7 @@ class tri_encoder():
     def init():
         print("Triangle encoer initialized!")
 
-    def encode(self, img, processed, filename):
+    def encode(self, img, processed, filename, th):
         # downsample image into 64 x 64
         if not processed:
             img = img[:, 324:2267]
@@ -19,7 +19,7 @@ class tri_encoder():
         (width, height) = color_im.size
         multiplier = 10
 
-        points = dt.findPointsFromImage(black_im)
+        points = dt.findPointsFromImage(black_im, th)
         triangles = dt.delaunayFromPoints(points)
     #    polygons = dt.voronoiFromTriangles(triangles)
 
