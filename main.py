@@ -122,6 +122,11 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         # DCT encode image
         img_data, self.encoded_img_data = encoder.encode(image, True)
         img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color(image, True)
+        # TODO: here switch to using constraint
+        #grey_constraint_index, color_constraint_index, tri_constraint_index = self.find_index()
+        #img_data, self.encoded_img_data = encoder.encode_with_constraint(image, constraint_index)
+        #img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color_with_constraint(image, constraint_index)
+
         self.decoded_image = encoder.decode(img_data) * 255.0
         self.decoded_image = self.decoded_image - np.amin(self.decoded_image)
         self.decoded_imager = encoder.decode(img_datar) * 255.0
@@ -171,6 +176,9 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         if self.index >= len(self.packets):
             self.index = 0
         threading.Timer( 1.5, self.broadcast_image ).start()
+
+    def find_index(self):
+        
 
 
 def main():

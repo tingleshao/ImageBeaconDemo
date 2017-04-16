@@ -14,15 +14,52 @@ import scipy.io as sio
 import gzip
 import math
 
+threshold_list = [10, 20, 30, 40, 50, 60]
+
 class image_encoder():
     def init():
         print("Image encoder initialized!")
 
-    def encode_with_constraint():
-        return None
+    def encode_with_constraint(self, img, constraint):
+        # assume image is processed
+        img_small = cv2.resize(img, (64,64), interpolation=cv2.INTER_CUBIC)
+        img_small = np.uint8(img_small)
+        img_small_grey = cv2.cvtColor(img_small, cv2.COLOR_BGR2GRAY)
+        imf = np.float32(img_small_grey)/255.0  # float conversion/scale
+        dst = cv2.dct(imf)           # the dct
+        threshold = threshold_list[constraint]
+        dst_compress = self.compress_img_constraint(np.int8(dst*10), threshold)
+        dst_compress2 = zlib.compress(self.mat_to_byte_array(dst_compress))
+        print("compressed length: " + str(len(dst_compress2)))
+        return dst_compress, dst_compress2
 
-    def encode_color_with_constraint():
-        return None
+    def encode_color_with_constraint(self, img, constraint):
+        img_small = cv2.resize(img, (64,64), interpolation=cv2.INTER_CUBIC)
+        img_small = np.uint8(img_small)
+        # dct the image
+        #img_small_grey = cv2.cvtColor(img_small, cv2.COLOR_BGR2GRAY)
+        imfr = np.float32(img_small[:,:,0]) / 255.0
+        imfg = np.float32(img_small[:,:,1]) / 255.0
+        imfb = np.float32(img_small[:,:,2]) / 255.0
+    #    imf = np.float32(img_small_grey)/255.0  # float conversion/scale
+        dstr = cv2.dct(imfr)           # the dct
+        dstg = cv2.dct(imfg)           # the dct
+        dstb = cv2.dct(imfb)           # the dct
+
+        threshold = threshold_list[constraint]
+        dst_compressr = self.compress_img_constraint(np.int8(dstr*10), threshold)
+        dst_compressg = self.compress_img_constraint(np.int8(dstg*10), threshold)
+        dst_compressb = self.compress_img_constraint(np.int8(dstb*10), threshold)
+        dst_compress2 = zlib.compress(self.mat3_to_byte_array(dst_compressr,dst_compressg, dst_compressb ))
+        num_array = ""
+        for elem in dst_compress2:
+            num_array+=(str(elem)+ " ")
+        print(num_array)
+        print(dst_compress2)
+        print(len(zlib.compress(dst_compress2)))
+        print(len(dst_compress2))
+        return dst_compressr, dst_compressg, dst_compressb, dst_compress2
+
 
     def encode(self, img, processed):
         # downsample the image into 64x64
@@ -112,6 +149,17 @@ class image_encoder():
                     count = count+1
         print("dst new:")
         print(dst_new)
+        return dst_new
+
+    def compress_img_constraint(self, dst, constraint):
+        dst_new = dst.copy()
+        count = 0
+        for i in range(dst.shape[0]):
+            for j in range(dst.shape[1]):
+                if i + j > constrant:
+                    dst_new[i, j] = 0
+                else:
+                    count = count + 1
         return dst_new
 
     def prepare(self, data):
