@@ -83,6 +83,8 @@ class Ui_MainWindow(object):
         self.radio_2 = QtWidgets.QRadioButton(self.centralWidget)
         self.radio_2.setGeometry(QtCore.QRect(190, 110, 25, 25))
         self.radio_2.setChecked(False)
+        self.radio_3.setGeometry(QtCore.QRect(310, 110, 25, 25))
+        self.radio_3.setChecked(False)
 
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
