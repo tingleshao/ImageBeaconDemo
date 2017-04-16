@@ -12,6 +12,7 @@ import mainwindow_auto
 from image_encoder import image_encoder
 from data_broadcaster import data_broadcaster
 import time, threading
+from tri_encoder import tri_encoder
 
 testmode = False
 if len(sys.argv) > 1:
@@ -75,11 +76,12 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
 #        gp.output(7, False)
 #        gp.output(11, False)
 #        gp.output(12, True)
-
-        self.camera.start_preview(fullscreen=False, window=(10,20,640,480))
-        signal = input()
-        self.camera.stop_preview()
-        self.camera.close()
+        if not testmode:
+            self.camera.start_preview(fullscreen=False, window=(10,20,640,480))
+            signal = input()
+            self.camera.stop_preview()
+            self.camera.close()
+            self.capture()
       #  gp.setwarnings(False)
       #  gp.setmode(gp.BOARD)
 
@@ -99,19 +101,18 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
  #       gp.output(11, True)
  #       gp.output(12, False)
  #       self.capture(3)
-        self.capture()
    #     gp.output(7, False)
    #     gp.output(11, False)
    #     gp.output(12, True)
 
-        image1 = cv2.imread("capture_1.jpg")
-        image2 = cv2.imread("capture_3.jpg")
-        image1 = image1[:,324:2267]
-        image2 = image2[:,324:2267]
-        image1 = cv2.resize(image1, (200,200), interpolation=cv2.INTER_CUBIC)
-        image2 = cv2.resize(image2, (200,200), interpolation=cv2.INTER_CUBIC)
-
-     #   image2 = cv2.imread("capture_3.jpg")
+            image1 = cv2.imread("capture_1.jpg")
+            image2 = cv2.imread("capture_3.jpg")
+            image1 = image1[:,324:2267]
+            image2 = image2[:,324:2267]
+            image1 = cv2.resize(image1, (200,200), interpolation=cv2.INTER_CUBIC)
+            image2 = cv2.resize(image2, (200,200), interpolation=cv2.INTER_CUBIC)
+        image = cv2.imread("capture_1x.png")
+                     #   image2 = cv2.imread("capture_3.jpg")
         segmenter = image_segmenter()
   #      image = segmenter.disparity(image1, image2)
   #      segmenter.watershed(image1)
@@ -143,10 +144,10 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.label_10.setPixmap(QtGui.QPixmap("gray.jpg"))
         self.label_11.setPixmap(QtGui.QPixmap("color.jpg"))
         # triangle encode image
-        tri_filename = "capture_1.jpg"
+        tri_filename = "capture_1x.png"
         t_encoder.encode(image1, True, tri_filename)
         self.label_12.setPixmap(QtGui.QPixmap("delaunay_" + tri_filename))
-        
+
 
     def capture(self):
         cmd = "python3 test_cam.py"

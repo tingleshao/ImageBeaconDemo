@@ -16,7 +16,7 @@ def generateRandomPoints(count, sizeX, sizeY):
         p = (rand.randint(0,sizeX),rand.randint(0,sizeY))
         if not p in points:
             points.append(p)
-    print "Punkte generieren: %.2fs" % (time.clock()-start)
+    print("Punkte generieren: %.2fs" % (time.clock()-start))
     return points
 
 def generateWeightedRandomPoints(count, sizeX, sizeY):
@@ -28,7 +28,7 @@ def generateWeightedRandomPoints(count, sizeX, sizeY):
         p = (x, y)
         if not p in points:
             points.append(p)
-    print "Punkte generieren: %.2fs" % (time.clock()-start)
+    print("Punkte generieren: %.2fs" % (time.clock()-start))
     return points
 
 def drawPoints(points, filename, sizeX, sizeY):
@@ -54,7 +54,7 @@ def drawTriangulation(triangles, filename, sizeX, sizeY, multiplier):
         drawT = (p0, p1, p2)
         draw.polygon(drawT, fill=(r,g,b,255))
     im.save(filename, "JPEG")
-    print "Dreiecke zeichnen: %.2fs" % (time.clock()-start)
+    print("Dreiecke zeichnen: %.2fs" % (time.clock()-start))
 
 def getCenterPoint(t):
     return ((t[0][0]+t[1][0]+t[2][0])/3, (t[0][1]+t[1][1]+t[2][1])/3)
@@ -144,12 +144,12 @@ def drawImageColoredVoronoi(polygons, filename, origIm, multiplier):
     im = brightenImage(im, 3.0)
     ImageFile.MAXBLOCK = im.size[0] * im.size[1]
     im.save(filename, "JPEG", quality=100, optimize=True, progressive=True)
-    print "Voronoi zeichnen: %.2fs" % (time.clock()-start)
+    print("Voronoi zeichnen: %.2fs" % (time.clock()-start))
 
 def generateTriangles(points):
     start = time.clock()
     triangles = delaunay(points)
-    print "Delaunay-Triangulierung: %.2fs" % (time.clock()-start)
+    print("Delaunay-Triangulierung: %.2fs" % (time.clock()-start))
     return triangles
 
 # Der Faktor, der die Anzahl generierter Punkte bestimmt ist der Exponent von v.
@@ -171,8 +171,8 @@ def findPointsFromImage(im):
             if np.random.random() < v:
                 points.append((col, row))
 
-    print "Anzahl erzeugter Punkte:", len(points)
-    print "Punkte extrahieren: %.2fs" % (time.clock()-start)
+    print("Anzahl erzeugter Punkte:", len(points))
+    print("Punkte extrahieren: %.2fs" % (time.clock()-start))
     return points
 
 def loadAndFilterImage(name):
@@ -185,7 +185,7 @@ def loadAndFilterImage(name):
     im = brightenImage(im, 20.0)
 
     im = im.filter(ImageFilter.GaussianBlur(radius=5))
-    print "Bild laden: %.2fs" % (time.clock()-start)
+    print("Bild laden: %.2fs" % (time.clock()-start))
     return (orig, im)
 
 def tupleToString(t):
@@ -194,8 +194,8 @@ def tupleToString(t):
 def printTriangleList(l):
     for t in l:
         if t != None:
-            print tupleToString(t),
-    print ""
+            print(tupleToString(t),)
+    print("")
 
 def removeUnusedLinks(triangles):
     newList = []
@@ -227,14 +227,14 @@ def autocontrastImage(filename):
     im = Image.open(filename)
     im = ImageOps.autocontrast(im)
     im.save("autocontrasted_" + filename, "JPEG")
-    print "Autocontrast Image: %.2fs" % (time.clock()-start)
+    print("Autocontrast Image: %.2fs" % (time.clock()-start))
 
 def equalizeImage(filename):
     start = time.clock()
     im = Image.open(filename)
     im = ImageOps.equalize(im)
     im.save("equalized_" + filename, "JPEG")
-    print "Equalize Image: %.2fs" % (time.clock()-start)
+    print("Equalize Image: %.2fs" % (time.clock()-start))
 
 def resizeImage(filename, longestSide):
     im = Image.open(filename)
@@ -251,14 +251,14 @@ def resizeImage(filename, longestSide):
 def delaunayFromPoints(points):
     start = time.clock()
     triangles = delaunay(points)
-    print "Delaunay-Triangulierung: %.2fs" % (time.clock()-start)
+    print("Delaunay-Triangulierung: %.2fs" % (time.clock()-start))
     return triangles
 
 # Wrapper.
 def voronoiFromTriangles(triangles):
     start = time.clock()
     polygons = createVoronoiFromDelaunay(triangles)
-    print "Voronoi-Polygonalisierung: %.2fs" % (time.clock()-start)
+    print("Voronoi-Polygonalisierung: %.2fs" % (time.clock()-start))
     return polygons
 
 if __name__ == '__main__':
