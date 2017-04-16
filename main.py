@@ -145,9 +145,15 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.label_11.setPixmap(QtGui.QPixmap("color.jpg"))
         # triangle encode image
         tri_filename = "capture_1x.png"
-        t_encoder.encode(image1, True, tri_filename)
-        self.label_12.setPixmap(QtGui.QPixmap("delaunay_" + tri_filename))
-
+        t_encoder.encode(image, True, tri_filename)
+        print("delaunay_" + tri_filename)
+        image = QtGui.QImage("delaunay_" + tri_filename)
+        a = cv2.imread("autocontrasted_delaunay_" + "capture_1x.jpg")
+        b = cv2.resize(a, (64,64))
+        cv2.imwrite("tri.jpg", b)
+#        self.label_11.setPixmap(QtGui.QPixmap("delaunay_" + "capture_1x.jpg"))
+        self.label_12.setPixmap(QtGui.QPixmap("tri.jpg"))
+        print("here")
 
     def capture(self):
         cmd = "python3 test_cam.py"

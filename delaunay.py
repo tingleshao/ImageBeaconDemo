@@ -114,8 +114,8 @@ def findTriangle2Rec(p, t, lastT, debug):
             #print count,
             return t
 
-        d1 = sys.maxint
-        d2 = sys.maxint
+        d1 = sys.maxsize
+        d2 = sys.maxsize
 
         # Welches anliegende Dreieck ist näher an p:
         t1 = t[3]

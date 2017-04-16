@@ -21,14 +21,13 @@ class tri_encoder():
 
         points = dt.findPointsFromImage(black_im)
         triangles = dt.delaunayFromPoints(points)
-        polygons = voronoiFromTriangles(triangles)
+    #    polygons = dt.voronoiFromTriangles(triangles)
 
-        dt.drawImageColoredTriangles(triangles, "delaunay_" + filename, color_im, multiplier)
-        dt.drawImageColoredTriangles(polygons, "voronoi_" + filename, color_im, multiplier)
+        dt.drawImageColoredTriangles(triangles, "delaunay_" + filename.split(".")[0] + ".jpg", color_im, multiplier)
+    #    dt.drawImageColoredVoronoi(polygons, "voronoi_" + filename, color_im, multiplier)
 
-        # TODO: is this a postprocessing stage? shall I add it into the client?
-        dt.autocontrastImage("voronoi_" + filename)
-        dt.autocontrastImage("delaunay_" + filename)
+    #    dt.autocontrastImage("voronoi_" + filename)
+        dt.autocontrastImage("delaunay_" + filename.split(".")[0] + ".jpg")
 
         b = cv2.imread("delaunay_" + filename)
         return b

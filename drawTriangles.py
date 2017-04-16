@@ -8,6 +8,7 @@ import random as rand
 import time
 import numpy as np
 import pickle
+import functools
 
 def generateRandomPoints(count, sizeX, sizeY):
     points = []
@@ -63,6 +64,7 @@ def getTriangleColor(t, im):
 
     # 3x der Wert in der Mitte + jew. die Ecke / 6.
     color = []
+#    print("t:" + str(t))
     for i in range(3):
         p = t[i]
         if p[0] >= im.size[0] or p[0] < 0 or p[1] >= im.size[1] or p[1] < 0:
@@ -75,8 +77,8 @@ def getTriangleColor(t, im):
         color = color + [centerPixel]*3
 
     div = float(len(color))
-    color = reduce(lambda rec, x : ((rec[0]+x[0])/div, (rec[1]+x[1])/div, (rec[2]+x[2])/div), color, (0,0,0))
-    color = map(lambda x : int(x), color)
+    color = functools.reduce(lambda rec, x : ((rec[0]+x[0])/div, (rec[1]+x[1])/div, (rec[2]+x[2])/div), color, (0,0,0))
+    color = list(map(lambda x : int(x), color))
     return color
 
 def getPolygonColor(pol, im):
@@ -101,11 +103,11 @@ def getPolygonColor(pol, im):
 
 
     div = float(len(color))
-    color = reduce(lambda rec, x : ((rec[0]+x[0]), (rec[1]+x[1]), (rec[2]+x[2])), color, (0,0,0))
+    color = functools.reduce(lambda rec, x : ((rec[0]+x[0]), (rec[1]+x[1]), (rec[2]+x[2])), color, (0,0,0))
     color = (color[0]/div, color[1]/div, color[2]/div)
     # Diese Zeile ergibt KEINEN Sinn!!!!!  Aber anders hab ichs nicht zum Laufen gebracht. Irgendein Fehler mit der Farbe...
     color = (color[0]/4.0, color[1]/4.0, color[2]/4.0)
-    color = map(lambda x : int(x), color)
+    color = list(map(lambda x : int(x), color))
 
     return color
 
@@ -119,13 +121,16 @@ def drawImageColoredTriangles(triangles, filename, origIm, multiplier):
     im = Image.new('RGB', (sizeX*multiplier, sizeY*multiplier))
     draw = ImageDraw.Draw(im)
     start = time.clock()
+#    i = 0
     for t in triangles:
+    #   print(i)
         (r,g,b) = getTriangleColor(t, origIm)
         p0 = tuple(map(lambda x:x*multiplier, t[0]))
         p1 = tuple(map(lambda x:x*multiplier, t[1]))
         p2 = tuple(map(lambda x:x*multiplier, t[2]))
         drawT = (p0, p1, p2)
         draw.polygon(drawT, fill=(r,g,b,255))
+    #       i = i+1
     im = brightenImage(im, 3.0)
     ImageFile.MAXBLOCK = im.size[0] * im.size[1]
     im.save(filename, "JPEG", quality=100, optimize=True, progressive=True)
@@ -139,7 +144,8 @@ def drawImageColoredVoronoi(polygons, filename, origIm, multiplier):
         if len(pol) < 2:
             continue
         (r,g,b) = getPolygonColor(pol, origIm)
-        newPol = map(lambda x: (x[0] * multiplier, x[1]*multiplier), pol)
+        newPol = list(map(lambda x: (x[0] * multiplier, x[1]*multiplier), pol))
+    #    print(newPol)
         draw.polygon(newPol, fill=(r,g,b,255))
     im = brightenImage(im, 3.0)
     ImageFile.MAXBLOCK = im.size[0] * im.size[1]
@@ -178,6 +184,7 @@ def findPointsFromImage(im):
 def loadAndFilterImage(name):
     start = time.clock()
     orig = Image.open(name)
+    orig = orig.resize((300,300), Image.ANTIALIAS)
     im = orig.convert("L")
     im = im.filter(ImageFilter.GaussianBlur(radius=5))
     im = im.filter(ImageFilter.FIND_EDGES)
