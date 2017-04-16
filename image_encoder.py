@@ -18,6 +18,12 @@ class image_encoder():
     def init():
         print("Image encoder initialized!")
 
+    def encode_with_constraint():
+        return None
+
+    def encode_color_with_constraint():
+        return None
+
     def encode(self, img, processed):
         # downsample the image into 64x64
         if not processed:

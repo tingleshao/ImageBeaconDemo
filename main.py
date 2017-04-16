@@ -143,6 +143,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         cv2.imwrite("color.jpg", self.decoded_image_color)
         self.label_10.setPixmap(QtGui.QPixmap("gray.jpg"))
         self.label_11.setPixmap(QtGui.QPixmap("color.jpg"))
+
         # triangle encode image
         tri_filename = "capture_1x.png"
         t_encoder.encode(image, True, tri_filename)
