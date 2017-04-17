@@ -126,13 +126,16 @@ def drawImageColoredTriangles(triangles, filename, origIm, multiplier):
     color_data = []
     for t in triangles:
     #   print(i)
-        triangle_data.append(t[0])
-        triangle_data.append(t[1])
-        triangle_data.append(t[2])
+        triangle_data.append(t[0][0]-128)
+        triangle_data.append(t[0][1]-128)
+        triangle_data.append(t[1][0]-128)
+        triangle_data.append(t[1][1]-128)
+        triangle_data.append(t[2][0]-128)
+        triangle_data.append(t[2][1]-128)
         (r,g,b) = getTriangleColor(t, origIm)
-        color_data.append(r)
-        color_data.append(g)
-        color_data.append(b)
+        color_data.append(r-128)
+        color_data.append(g-128)
+        color_data.append(b-128)
         p0 = tuple(map(lambda x:x*multiplier, t[0]))
         p1 = tuple(map(lambda x:x*multiplier, t[1]))
         p2 = tuple(map(lambda x:x*multiplier, t[2]))
@@ -142,7 +145,10 @@ def drawImageColoredTriangles(triangles, filename, origIm, multiplier):
     im = brightenImage(im, 3.0)
     ImageFile.MAXBLOCK = im.size[0] * im.size[1]
     im.save(filename, "JPEG", quality=100, optimize=True, progressive=True)
-    mesh_data = triangle_data
+    #mesh_data = [len(triangles)]
+    mesh_data = []
+    for i in triangle_data:
+        mesh_data.append(i)
     for i in color_data:
         mesh_data.append(i)
     return mesh_data
@@ -197,7 +203,7 @@ def findPointsFromImage(im, th):
 def loadAndFilterImage(name):
     start = time.clock()
     orig = Image.open(name)
-    orig = orig.resize((300,300), Image.ANTIALIAS)
+    orig = orig.resize((256,256), Image.ANTIALIAS)
     im = orig.convert("L")
     im = im.filter(ImageFilter.GaussianBlur(radius=5))
     im = im.filter(ImageFilter.FIND_EDGES)

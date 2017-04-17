@@ -33,7 +33,8 @@ class tri_encoder():
         b = cv2.imread("delaunay_" + filename)
     #    data = construct_tri_data()
     #    data2 = json.dumps(data)
-        data3 = zlib.compress(np.asarray(data))
+        print(data)
+        data3 = zlib.compress(np.int8(np.asarray(data)))
         return data3
 
     def construct_tri_data():

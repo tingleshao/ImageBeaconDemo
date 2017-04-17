@@ -155,7 +155,11 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         # triangle encode image
         tri_filename = "capture_1x.png"
         encoded_img_data_tri = t_encoder.encode(image, True, tri_filename, 1.8)
-        print(encoded_img_data_tri)
+        encoded_str = ""
+        for i in encoded_img_data_tri:
+            encoded_str = encoded_str + str(int(i)) + " "
+        print(encoded_str)
+    #    print(encoded_img_data_tri)
         print("tri data len: " + str(len(encoded_img_data_tri)))
         print("delaunay_" + tri_filename)
         image = QtGui.QImage("delaunay_" + tri_filename)
