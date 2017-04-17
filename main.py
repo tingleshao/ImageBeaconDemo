@@ -51,27 +51,28 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
             self.camera = picamera.PiCamera()
 
     def buttonClicked(self):
-        sender = self.sender()
-        self.statusBar().showMessage(sender.text() + ' was pressed')
-    #    image = cv2.imread("image.jpg")
-    #    encoder = image_encoder()
-    #    img_data, encoded_img_data = encoder.encode(image)
-    #    cv2.imshow("output", encoder.decode(img_data))
-    #    print(encoded_img_data)
-        if self.radio_1.isChecked():
-            self.set_data(self.encoded_img_data)
-            print("broadcasting gray image")
-        elif self.radio_2.isChecked():
-            self.set_data(self.encoded_img_data_color)
-            print("broadcasting color image")
-        else:
-            self.set_data(self.encoded_img_data_tri)
-            print("broadcasting tri image")
-        print("self data:" + str(self.data))
-        encoder = image_encoder()
-        self.packets = encoder.prepare(self.data)
-        self.index = 0
-        self.broadcast_image()
+        if not testmode:
+            sender = self.sender()
+            self.statusBar().showMessage(sender.text() + ' was pressed')
+        #    image = cv2.imread("image.jpg")
+        #    encoder = image_encoder()
+        #    img_data, encoded_img_data = encoder.encode(image)
+        #    cv2.imshow("output", encoder.decode(img_data))
+        #    print(encoded_img_data)
+            if self.radio_1.isChecked():
+                self.set_data(self.encoded_img_data)
+                print("broadcasting gray image")
+            elif self.radio_2.isChecked():
+                self.set_data(self.encoded_img_data_color)
+                print("broadcasting color image")
+            else:
+                self.set_data(self.encoded_img_data_tri)
+                print("broadcasting tri image")
+            print("self data:" + str(self.data))
+            encoder = image_encoder()
+            self.packets = encoder.prepare(self.data)
+            self.index = 0
+            self.broadcast_image()
         print("button clicked!")
 
 # if capture image button is clicked
@@ -154,7 +155,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
 
         # triangle encode image
         tri_filename = "capture_1x.png"
-        encoded_img_data_tri = t_encoder.encode(image, True, tri_filename, 1.8)
+        encoded_img_data_tri = t_encoder.encode(image, True, tri_filename, 2.1)
         encoded_str = ""
         for i in encoded_img_data_tri:
             encoded_str = encoded_str + str(int(i)) + " "

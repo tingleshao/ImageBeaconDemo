@@ -140,8 +140,8 @@ def findTriangle2Rec(p, t, lastT, debug):
         if not alreadyVisited(t, visited):
             visited.append(t)
 
-        if nextT1 == None and nextT2 == None:
-            print("shit.")
+    #    if nextT1 == None and nextT2 == None:
+        #    print("shit.")
 
         # Wenn einer von beiden None ist und der andere nicht.
         if nextT1 == None and nextT2 != None:
@@ -354,7 +354,7 @@ def findNextTriangleWithPoint(point, t):
     for i in range(3, 6):
         if t != None and t[i] != None and pointInTriangle4(point, t[i]):
             return t[i]
-    print("shit fuck")
+#    print("shit fuck")
 
 
 # Fuegt einen Punkt in eine bestehende Triangulierung ein und
@@ -490,8 +490,9 @@ def removeOutOfBoundsTriangles(triangles, minX, minY, maxX, maxY):
             good += 1
         else:
             bad += 1
-    print("Bad-Triangles entfernen: %.2fs" % (time.clock()-start))
-    print("Good triangles:", good, " and bad triangles:", bad)
+#    print("Bad-Triangles entfernen: %.2fs" % (time.clock()-start))
+#    print("Good triangles:", good, " and bad triangles:", bad)
+    print("triangles: ", good)
     return newTriangles
 
 # Erstellt eine Delaunay-Triangulierung der uebergebenen Punkte!

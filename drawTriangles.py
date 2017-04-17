@@ -12,24 +12,24 @@ import functools
 
 def generateRandomPoints(count, sizeX, sizeY):
     points = []
-    start = time.clock()
+#    start = time.clock()
     for i in range(count):
         p = (rand.randint(0,sizeX),rand.randint(0,sizeY))
         if not p in points:
             points.append(p)
-    print("Punkte generieren: %.2fs" % (time.clock()-start))
+#    print("Punkte generieren: %.2fs" % (time.clock()-start))
     return points
 
 def generateWeightedRandomPoints(count, sizeX, sizeY):
     points = []
-    start = time.clock()
+#    start = time.clock()
     for i in range(count):
         x = rand.randint(0,sizeX/2)-rand.randint(0,sizeX/2) + sizeX/2
         y = rand.randint(0,sizeY/2)-rand.randint(0,sizeY/2) + sizeY/2
         p = (x, y)
         if not p in points:
             points.append(p)
-    print("Punkte generieren: %.2fs" % (time.clock()-start))
+#    print("Punkte generieren: %.2fs" % (time.clock()-start))
     return points
 
 def drawPoints(points, filename, sizeX, sizeY):
@@ -44,7 +44,7 @@ def drawPoints(points, filename, sizeX, sizeY):
 def drawTriangulation(triangles, filename, sizeX, sizeY, multiplier):
     im = Image.new('RGB', (sizeX*multiplier, sizeY*multiplier))
     draw = ImageDraw.Draw(im)
-    start = time.clock()
+#    start = time.clock()
     for t in triangles:
         r = rand.randint(0,255)
         g = rand.randint(0,255)
@@ -55,7 +55,7 @@ def drawTriangulation(triangles, filename, sizeX, sizeY, multiplier):
         drawT = (p0, p1, p2)
         draw.polygon(drawT, fill=(r,g,b,255))
     im.save(filename, "JPEG")
-    print("Dreiecke zeichnen: %.2fs" % (time.clock()-start))
+#    print("Dreiecke zeichnen: %.2fs" % (time.clock()-start))
 
 def getCenterPoint(t):
     return ((t[0][0]+t[1][0]+t[2][0])/3, (t[0][1]+t[1][1]+t[2][1])/3)
@@ -154,7 +154,7 @@ def drawImageColoredTriangles(triangles, filename, origIm, multiplier):
     return mesh_data
 
 def drawImageColoredVoronoi(polygons, filename, origIm, multiplier):
-    start = time.clock()
+#    start = time.clock()
     (sizeX, sizeY) = origIm.size
     im = Image.new('RGB', (sizeX*multiplier, sizeY*multiplier))
     draw = ImageDraw.Draw(im)
@@ -168,12 +168,12 @@ def drawImageColoredVoronoi(polygons, filename, origIm, multiplier):
     im = brightenImage(im, 3.0)
     ImageFile.MAXBLOCK = im.size[0] * im.size[1]
     im.save(filename, "JPEG", quality=100, optimize=True, progressive=True)
-    print("Voronoi zeichnen: %.2fs" % (time.clock()-start))
+#    print("Voronoi zeichnen: %.2fs" % (time.clock()-start))
 
 def generateTriangles(points):
-    start = time.clock()
+#    start = time.clock()
     triangles = delaunay(points)
-    print("Delaunay-Triangulierung: %.2fs" % (time.clock()-start))
+#    print("Delaunay-Triangulierung: %.2fs" % (time.clock()-start))
     return triangles
 
 # Der Faktor, der die Anzahl generierter Punkte bestimmt ist der Exponent von v.
@@ -201,7 +201,7 @@ def findPointsFromImage(im, th):
     return points
 
 def loadAndFilterImage(name):
-    start = time.clock()
+#    start = time.clock()
     orig = Image.open(name)
     orig = orig.resize((256,256), Image.ANTIALIAS)
     im = orig.convert("L")
@@ -211,7 +211,7 @@ def loadAndFilterImage(name):
     im = brightenImage(im, 20.0)
 
     im = im.filter(ImageFilter.GaussianBlur(radius=5))
-    print("Bild laden: %.2fs" % (time.clock()-start))
+#    print("Bild laden: %.2fs" % (time.clock()-start))
     return (orig, im)
 
 def tupleToString(t):
@@ -249,18 +249,18 @@ def saveTriangleListToFile(triangles, filename):
         pickle.dump(triangles, f)
 
 def autocontrastImage(filename):
-    start = time.clock()
+#    start = time.clock()
     im = Image.open(filename)
     im = ImageOps.autocontrast(im)
     im.save("autocontrasted_" + filename, "JPEG")
-    print("Autocontrast Image: %.2fs" % (time.clock()-start))
+#    print("Autocontrast Image: %.2fs" % (time.clock()-start))
 
 def equalizeImage(filename):
-    start = time.clock()
+#    start = time.clock()
     im = Image.open(filename)
     im = ImageOps.equalize(im)
     im.save("equalized_" + filename, "JPEG")
-    print("Equalize Image: %.2fs" % (time.clock()-start))
+#    print("Equalize Image: %.2fs" % (time.clock()-start))
 
 def resizeImage(filename, longestSide):
     im = Image.open(filename)
@@ -282,9 +282,9 @@ def delaunayFromPoints(points):
 
 # Wrapper.
 def voronoiFromTriangles(triangles):
-    start = time.clock()
+#    start = time.clock()
     polygons = createVoronoiFromDelaunay(triangles)
-    print("Voronoi-Polygonalisierung: %.2fs" % (time.clock()-start))
+#    print("Voronoi-Polygonalisierung: %.2fs" % (time.clock()-start))
     return polygons
 
 if __name__ == '__main__':
