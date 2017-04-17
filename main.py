@@ -115,7 +115,11 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
             image2 = image2[:,324:2267]
             image1 = cv2.resize(image1, (200,200), interpolation=cv2.INTER_CUBIC)
             image2 = cv2.resize(image2, (200,200), interpolation=cv2.INTER_CUBIC)
-        image = cv2.imread("capture_1x.png")
+        if testmode:
+            image = cv2.imread("capture_1x.png")
+        else:
+            image = cv2.imread("capture_1.jpg")
+            image = image[:, 324:2267]
                      #   image2 = cv2.imread("capture_3.jpg")
         segmenter = image_segmenter()
   #      image = segmenter.disparity(image1, image2)
@@ -155,11 +159,11 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
 
         # triangle encode image
         tri_filename = "capture_1x.png"
-        encoded_img_data_tri = t_encoder.encode(image, True, tri_filename, 2.1)
-        encoded_str = ""
-        for i in encoded_img_data_tri:
-            encoded_str = encoded_str + str(int(i)) + " "
-        print(encoded_str)
+        encoded_img_data_tri = t_encoder.encode(image, False, tri_filename, 1.8)
+#        encoded_str = ""
+#        for i in encoded_img_data_tri:
+#            encoded_str = encoded_str + str(int(i)) + " "
+#        print(encoded_str)
     #    print(encoded_img_data_tri)
         print("tri data len: " + str(len(encoded_img_data_tri)))
         print("delaunay_" + tri_filename)

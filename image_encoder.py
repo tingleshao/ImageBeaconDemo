@@ -144,7 +144,7 @@ class image_encoder():
         for i in range(dst.shape[0]):
             for j in range(dst.shape[1]):
             #    if i + j > 30:
-                if i + j > 60:
+                if i + j > 30:
                     dst_new[i,j] = 0
                 else:
                     count = count+1
