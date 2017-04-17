@@ -61,9 +61,12 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         if self.radio_1.isChecked():
             self.set_data(self.encoded_img_data)
             print("broadcasting gray image")
-        else:
+        elif self.radio_2.isChecked():
             self.set_data(self.encoded_img_data_color)
             print("broadcasting color image")
+        else:
+            self.set_data(self.encoded_img_data_tri)
+            print("broadcasting tri image")
         print("self data:" + str(self.data))
         encoder = image_encoder()
         self.packets = encoder.prepare(self.data)
@@ -151,7 +154,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
 
         # triangle encode image
         tri_filename = "capture_1x.png"
-        t_encoder.encode(image, True, tri_filename, 1.8)
+        encoded_img_data_tri = t_encoder.encode(image, True, tri_filename, 1.8)
         print("delaunay_" + tri_filename)
         image = QtGui.QImage("delaunay_" + tri_filename)
         a = cv2.imread("autocontrasted_delaunay_" + "capture_1x.jpg")
@@ -177,6 +180,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
             self.index = 0
         threading.Timer( 1.5, self.broadcast_image ).start()
 
+ #TODO: finish this
     def find_index(self):
         # for threshold 30, the time is gray: 10s, color: 40s
         delay = self.horizontalSlider_2.value()

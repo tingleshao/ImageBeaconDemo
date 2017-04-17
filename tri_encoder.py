@@ -30,4 +30,8 @@ class tri_encoder():
         dt.autocontrastImage("delaunay_" + filename.split(".")[0] + ".jpg")
 
         b = cv2.imread("delaunay_" + filename)
-        return b
+        data = construct_tri_data()
+        return data
+
+    def construct_tri_data():
+        return None
