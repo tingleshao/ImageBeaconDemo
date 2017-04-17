@@ -122,9 +122,17 @@ def drawImageColoredTriangles(triangles, filename, origIm, multiplier):
     draw = ImageDraw.Draw(im)
     start = time.clock()
 #    i = 0
+    triangle_data = []
+    color_data = []
     for t in triangles:
     #   print(i)
+        triangle_data.append(t[0])
+        triangle_data.append(t[1])
+        triangle_data.append(t[2])
         (r,g,b) = getTriangleColor(t, origIm)
+        color_data.append(r)
+        color_data.append(g)
+        color_data.append(b)
         p0 = tuple(map(lambda x:x*multiplier, t[0]))
         p1 = tuple(map(lambda x:x*multiplier, t[1]))
         p2 = tuple(map(lambda x:x*multiplier, t[2]))
@@ -134,6 +142,10 @@ def drawImageColoredTriangles(triangles, filename, origIm, multiplier):
     im = brightenImage(im, 3.0)
     ImageFile.MAXBLOCK = im.size[0] * im.size[1]
     im.save(filename, "JPEG", quality=100, optimize=True, progressive=True)
+    mesh_data = triangle_data
+    for i in color_data:
+        mesh_data.append(i)
+    return mesh_data
 
 def drawImageColoredVoronoi(polygons, filename, origIm, multiplier):
     start = time.clock()

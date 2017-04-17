@@ -3,7 +3,8 @@
 import cv2
 import numpy as np
 import drawTriangles as dt
-
+import zlib
+import json
 #
 class tri_encoder():
     def init():
@@ -23,15 +24,17 @@ class tri_encoder():
         triangles = dt.delaunayFromPoints(points)
     #    polygons = dt.voronoiFromTriangles(triangles)
 
-        dt.drawImageColoredTriangles(triangles, "delaunay_" + filename.split(".")[0] + ".jpg", color_im, multiplier)
+        data = dt.drawImageColoredTriangles(triangles, "delaunay_" + filename.split(".")[0] + ".jpg", color_im, multiplier)
     #    dt.drawImageColoredVoronoi(polygons, "voronoi_" + filename, color_im, multiplier)
 
     #    dt.autocontrastImage("voronoi_" + filename)
         dt.autocontrastImage("delaunay_" + filename.split(".")[0] + ".jpg")
 
         b = cv2.imread("delaunay_" + filename)
-        data = construct_tri_data()
-        return data
+    #    data = construct_tri_data()
+    #    data2 = json.dumps(data)
+        data3 = zlib.compress(np.asarray(data))
+        return data3
 
     def construct_tri_data():
         return None
