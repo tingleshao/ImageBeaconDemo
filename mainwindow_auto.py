@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
         self.horizontalSlider.setObjectName("horizontalSlider")
         self.horizontalSlider_2 = QtWidgets.QSlider(self.centralWidget)
         self.horizontalSlider_2.setGeometry(QtCore.QRect(20, 220, 160, 22))
-        self.horizontalSlider_2.setProperty("value", 50)
+        self.horizontalSlider_2.setProperty("value", 68)
         self.horizontalSlider_2.setOrientation(QtCore.Qt.Horizontal)
         self.horizontalSlider_2.setObjectName("horizontalSlider_2")
         self.label = QtWidgets.QLabel(self.centralWidget)

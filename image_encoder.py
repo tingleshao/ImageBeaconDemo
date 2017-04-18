@@ -27,7 +27,7 @@ class image_encoder():
         img_small_grey = cv2.cvtColor(img_small, cv2.COLOR_BGR2GRAY)
         imf = np.float32(img_small_grey)/255.0  # float conversion/scale
         dst = cv2.dct(imf)           # the dct
-        threshold = threshold_list[constraint]
+        threshold = constraint
         dst_compress = self.compress_img_constraint(np.int8(dst*10), threshold)
         dst_compress2 = zlib.compress(self.mat_to_byte_array(dst_compress))
         print("compressed length: " + str(len(dst_compress2)))
@@ -45,8 +45,7 @@ class image_encoder():
         dstr = cv2.dct(imfr)           # the dct
         dstg = cv2.dct(imfg)           # the dct
         dstb = cv2.dct(imfb)           # the dct
-
-        threshold = threshold_list[constraint]
+        threshold = constraint
         dst_compressr = self.compress_img_constraint(np.int8(dstr*10), threshold)
         dst_compressg = self.compress_img_constraint(np.int8(dstg*10), threshold)
         dst_compressb = self.compress_img_constraint(np.int8(dstb*10), threshold)
@@ -157,7 +156,7 @@ class image_encoder():
         count = 0
         for i in range(dst.shape[0]):
             for j in range(dst.shape[1]):
-                if i + j > constrant:
+                if i + j > constraint:
                     dst_new[i, j] = 0
                 else:
                     count = count + 1

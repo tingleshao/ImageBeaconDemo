@@ -128,12 +128,12 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         t_encoder = tri_encoder()
 
         # DCT encode image
-        img_data, self.encoded_img_data = encoder.encode(image, True)
-        img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color(image, True)
+    #    img_data, self.encoded_img_data = encoder.encode(image, True)
+    #    img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color(image, True)
         # TODO: here switch to using constraint
         grey_constraint_index, color_constraint_index, tri_constraint_index = self.find_index()
-        #img_data, self.encoded_img_data = encoder.encode_with_constraint(image, constraint_index)
-        #img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color_with_constraint(image, constraint_index)
+        img_data, self.encoded_img_data = encoder.encode_with_constraint(image, grey_constraint_index)
+        img_datar, img_datag, img_datab, self.encoded_img_data_color = encoder.encode_color_with_constraint(image, color_constraint_index)
 
         self.decoded_image = encoder.decode(img_data) * 255.0
         self.decoded_image = self.decoded_image - np.amin(self.decoded_image)
@@ -160,9 +160,9 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         # triangle encode image
             tri_filename = "capture_1x.png"
             if testmode:
-                self.encoded_img_data_tri = t_encoder.encode(image, True, tri_filename, 1.8)
+                self.encoded_img_data_tri = t_encoder.encode(image, True, tri_filename, tri_constraint_index)
             else:
-                self.encoded_img_data_tri = t_encoder.encode(image, False, tri_filename, 1.8)
+                self.encoded_img_data_tri = t_encoder.encode(image, False, tri_filename, tri_constraint_index)
     #        encoded_str = ""
     #        for i in encoded_img_data_tri:
     #            encoded_str = encoded_str + str(int(i)) + " "
@@ -199,8 +199,16 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         # for threshold 30, the time is gray: 10s, color: 40s
         delay = self.horizontalSlider_2.value()
         lifetime = self.horizontalSlider.value()
-        print("life time / delay: " + str(lifetime) + " " + str(delay))
-        return 1,2,3
+        if delay > 90:
+            return 60, 60, 2.1
+        elif delay >= 66:
+            return 60, 30, 1.8
+        elif delay > 33:
+            return 40, 20, 1.6
+        else:
+            return 30, 10, 1.4
+    #    print("life time / delay: " + str(lifetime) + " " + str(delay))
+    #    return 1,2,3
 
 
 def main():
