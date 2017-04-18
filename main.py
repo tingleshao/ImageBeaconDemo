@@ -123,6 +123,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         segmenter = image_segmenter()
         if self.checkbox_seg.isChecked():
             image = segmenter.disparity(image1, image2)
+            cv2.imwrite("seg.png", image)
   #      segmenter.watershed(image1)
         encoder = image_encoder()
         t_encoder = tri_encoder()
