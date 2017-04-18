@@ -123,6 +123,8 @@ class Ui_MainWindow(object):
         self.label.setFont(newfont)
         self.label_2.setFont(newfont)
         self.label_9.setFont(newfont)
+        self.checkbox_seg_label.setFont(newfont)
+        self.checkbox_tri_label.setFont(newfont)
         self.label.setText(_translate("MainWindow", "Transmission Time (seconds)"))
         self.label_2.setText(_translate("MainWindow", "System Lifetime (months)"))
         self.label_3.setText(_translate("MainWindow", "1"))
