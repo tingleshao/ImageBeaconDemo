@@ -86,6 +86,18 @@ class Ui_MainWindow(object):
         self.radio_3 = QtWidgets.QRadioButton(self.centralWidget)
         self.radio_3.setGeometry(QtCore.QRect(310, 110, 25, 25))
         self.radio_3.setChecked(False)
+        self.checkbox_seg = QtWidgets.QCheckBox(self.centralWidget)
+        self.checkbox_seg.setGeometry(QtCore.QRect(50, 5, 25, 25))
+        self.checkbox_seg.setChecked(False)
+        self.checkbox_tri = QtWidgets.QCheckBox(self.centralWidget)
+        self.checkbox_tri.setGeometry(QtCore.QRect(200, 5, 25, 25))
+        self.checkbox_tri.setChecked(True)
+        self.checkbox_seg_label = QtWidgets.QLabel(self.centralWidget)
+        self.checkbox_seg_label.setGeometry(QtCore.QRect(75, 5, 110, 25))
+        self.checkbox_tri_label = QtWidgets.QLabel(self.centralWidget)
+        self.checkbox_tri_label.setGeometry(QtCore.QRect(230, 5, 120, 25))
+
+
 
         MainWindow.setCentralWidget(self.centralWidget)
         self.menuBar = QtWidgets.QMenuBar(MainWindow)
@@ -107,7 +119,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.pushButton.setText(_translate("MainWindow", "Write Image"))
         self.pushButton2.setText(_translate("MainWindow", "Take Image"))
-        newfont = QtGui.QFont("Helvetica", 10, QtGui.QFont.Bold)
+        newfont = QtGui.QFont("Helvetica", 6, QtGui.QFont.Bold)
         self.label.setFont(newfont)
         self.label_2.setFont(newfont)
         self.label_9.setFont(newfont)
@@ -120,3 +132,5 @@ class Ui_MainWindow(object):
         self.label_7.setText(_translate("MainWindow", "1"))
         self.label_8.setText(_translate("MainWindow", "3"))
         self.label_9.setText(_translate("MainWindow", '# of beacons'))
+        self.checkbox_seg_label.setText(_translate("MainWindow", 'use segmentation'))
+        self.checkbox_tri_label.setText(_translate("MainWindow", 'run triangularization'))
