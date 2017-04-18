@@ -159,7 +159,8 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.label_11.setPixmap(QtGui.QPixmap("color.jpg"))
         if self.checkbox_tri.isChecked():
         # triangle encode image
-            tri_filename = "capture_1x.png"
+            cv2.imwrite("capture_1tri.jpg", image1);
+            tri_filename = "capture_1tri.jpg"
             if testmode:
                 self.encoded_img_data_tri = t_encoder.encode(image, True, tri_filename, tri_constraint_index)
             else:
@@ -172,7 +173,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
             print("tri data len: " + str(len(self.encoded_img_data_tri)))
             print("delaunay_" + tri_filename)
             image = QtGui.QImage("delaunay_" + tri_filename)
-            a = cv2.imread("autocontrasted_delaunay_" + "capture_1x.jpg")
+            a = cv2.imread("autocontrasted_delaunay_" + "capture_1tri.jpg")
             b = cv2.resize(a, (64,64))
             cv2.imwrite("tri.jpg", b)
     #        self.label_11.setPixmap(QtGui.QPixmap("delaunay_" + "capture_1x.jpg"))
