@@ -107,7 +107,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
  #       self.capture(3)
    #     gp.output(7, False)
    #     gp.output(11, False)
-   #     gp.output(12, True)      
+   #     gp.output(12, True)
             image1 = cv2.imread("capture_1.jpg")
             image2 = cv2.imread("capture_3.jpg")
             image1 = image1[:,324:2267]
@@ -192,7 +192,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.index = self.index +1
         if self.index >= len(self.packets):
             self.index = 0
-        threading.Timer( 1.5, self.broadcast_image ).start()
+        threading.Timer(0.5, self.broadcast_image ).start()
 
  #TODO: finish this
     def find_index(self):
