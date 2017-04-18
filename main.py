@@ -192,7 +192,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         self.index = self.index +1
         if self.index >= len(self.packets):
             self.index = 0
-        threading.Timer(0.5, self.broadcast_image ).start()
+        threading.Timer(1.3, self.broadcast_image ).start()
 
  #TODO: finish this
     def find_index(self):
