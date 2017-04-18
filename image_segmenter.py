@@ -68,14 +68,15 @@ class image_segmenter():
         image1copy = image1
         image1=cv2.cvtColor(image1, cv2.COLOR_BGR2GRAY)
         image2=cv2.cvtColor(image2, cv2.COLOR_BGR2GRAY)
-        stereo = cv2.StereoBM_create( numDisparities=16, blockSize=15)
+        stereo = cv2.StereoBM_create( numDisparities=16, blockSize=5)
         disparity = stereo.compute(image1, image2)
         print("disparity" + str(disparity))
         binary_disparity = self.convertToBinary(disparity, 200, 200)
+        cv2.imwrite("seg.png", binary_disparity)
         ref_bin = self.refine(binary_disparity)
-        res = self.processImage(image1copy, ref_bin) 
+        res = self.processImage(image1copy, ref_bin)
 #        plt.imshow(res)
-        return res        
+        return res
  #       plt.show()
 
     def convertToBinary(self, dis, w, h):
@@ -83,28 +84,28 @@ class image_segmenter():
         for i in range(w):
             for j in range(h):
                 if dis[j,i] > -16:
-                    bin[j,i] = 1 
+                    bin[j,i] = 1
         return bin
 
     def refine(self, bin):
         kernel1 = np.ones((3,3), np.uint8)
         kernel2 = np.ones((20,20), np.uint8)
-         
+
         ref1 = cv2.erode(bin, kernel1, iterations=1)
         ref2 = cv2.dilate(ref1, kernel2, iterations=1)
         return ref2
- 
-    def processImage(self, img, bin): 
+
+    def processImage(self, img, bin):
         # img: 64, 64
         img = cv2.resize(img, (64,64), interpolation=cv2.INTER_CUBIC)
         bin = cv2.resize(bin, (64,64), interpolation=cv2.INTER_CUBIC)
         fg = np.zeros((64,64,3))
-        bg = np.zeros((64,64,3)) 
-        for i in range(64): 
+        bg = np.zeros((64,64,3))
+        for i in range(64):
             for j in range(64):
                 if bin[j,i] > 0:
                     fg[j,i] = img[j,i]
-                else: 
+                else:
                     bg[j,i] = img[j,i]
         bg = cv2.resize(bg, (5,5), interpolation=cv2.INTER_CUBIC)
         bg = cv2.resize(bg, (64,64), interpolation=cv2.INTER_CUBIC)
