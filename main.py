@@ -65,7 +65,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
             elif self.radio_2.isChecked():
                 self.set_data(self.encoded_img_data_color)
                 print("broadcasting color image")
-            else:
+            elif self.checkbox_tri.isChecked():
                 self.set_data(self.encoded_img_data_tri)
                 print("broadcasting tri image")
             print("self data:" + str(self.data))
@@ -107,8 +107,7 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
  #       self.capture(3)
    #     gp.output(7, False)
    #     gp.output(11, False)
-   #     gp.output(12, True)
-
+   #     gp.output(12, True)      
             image1 = cv2.imread("capture_1.jpg")
             image2 = cv2.imread("capture_3.jpg")
             image1 = image1[:,324:2267]
@@ -122,7 +121,8 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
             image = image[:, 324:2267]
                      #   image2 = cv2.imread("capture_3.jpg")
         segmenter = image_segmenter()
-  #      image = segmenter.disparity(image1, image2)
+        if self.checkbox_seg.isChecked():
+            image = segmenter.disparity(image1, image2)
   #      segmenter.watershed(image1)
         encoder = image_encoder()
         t_encoder = tri_encoder()
@@ -156,24 +156,27 @@ class MainWindow(QMainWindow, mainwindow_auto.Ui_MainWindow):
         cv2.imwrite("color.jpg", self.decoded_image_color)
         self.label_10.setPixmap(QtGui.QPixmap("gray.jpg"))
         self.label_11.setPixmap(QtGui.QPixmap("color.jpg"))
-
+        if self.checkbox_tri.isChecked():
         # triangle encode image
-        tri_filename = "capture_1x.png"
-        self.encoded_img_data_tri = t_encoder.encode(image, False, tri_filename, 1.8)
-#        encoded_str = ""
-#        for i in encoded_img_data_tri:
-#            encoded_str = encoded_str + str(int(i)) + " "
-#        print(encoded_str)
-    #    print(encoded_img_data_tri)
-        print("tri data len: " + str(len(self.encoded_img_data_tri)))
-        print("delaunay_" + tri_filename)
-        image = QtGui.QImage("delaunay_" + tri_filename)
-        a = cv2.imread("autocontrasted_delaunay_" + "capture_1x.jpg")
-        b = cv2.resize(a, (64,64))
-        cv2.imwrite("tri.jpg", b)
-#        self.label_11.setPixmap(QtGui.QPixmap("delaunay_" + "capture_1x.jpg"))
-        self.label_12.setPixmap(QtGui.QPixmap("tri.jpg"))
-        print("here")
+            tri_filename = "capture_1x.png"
+            if testmode:
+                self.encoded_img_data_tri = t_encoder.encode(image, True, tri_filename, 1.8)
+            else:
+                self.encoded_img_data_tri = t_encoder.encode(image, False, tri_filename, 1.8)
+    #        encoded_str = ""
+    #        for i in encoded_img_data_tri:
+    #            encoded_str = encoded_str + str(int(i)) + " "
+    #        print(encoded_str)
+        #    print(encoded_img_data_tri)
+            print("tri data len: " + str(len(self.encoded_img_data_tri)))
+            print("delaunay_" + tri_filename)
+            image = QtGui.QImage("delaunay_" + tri_filename)
+            a = cv2.imread("autocontrasted_delaunay_" + "capture_1x.jpg")
+            b = cv2.resize(a, (64,64))
+            cv2.imwrite("tri.jpg", b)
+    #        self.label_11.setPixmap(QtGui.QPixmap("delaunay_" + "capture_1x.jpg"))
+            self.label_12.setPixmap(QtGui.QPixmap("tri.jpg"))
+            print("here")
 
     def capture(self):
         cmd = "python3 test_cam.py"
