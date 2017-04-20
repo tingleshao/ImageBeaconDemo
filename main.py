@@ -26,6 +26,8 @@ import numpy as np
 import os
 
 
+# TODO: good segemntation + open source license etc.
+
 #gp.setwarnings(False)
 #gp.setmode(gp.BOARD)
 #gp.setup(7, gp.OUT)
